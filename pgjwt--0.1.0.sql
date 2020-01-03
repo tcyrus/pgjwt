@@ -1,9 +1,11 @@
 \echo Use "CREATE EXTENSION pgjwt" to load this file. \quit
 
 
-CREATE OR REPLACE FUNCTION url_encode(data bytea) RETURNS text LANGUAGE sql AS $$
-    SELECT translate(encode(data, 'base64'), E'+/=\n', '-_');
-$$;
+CREATE OR REPLACE FUNCTION url_encode(data bytea) RETURNS text AS $$
+BEGIN
+    RETURN translate(encode(data, 'base64'), E'+/=\n', '-_');
+END;
+$$ LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION url_decode(data text) RETURNS bytea LANGUAGE sql AS $$
